@@ -8,5 +8,5 @@ import { AuthAppService } from './auth-app.service';
 })
 export class AppComponent {
   title = 'listadecompra';
-  constructor( public auth: AuthAppService) {}
+  constructor( public authApp: AuthAppService) {}
 }
