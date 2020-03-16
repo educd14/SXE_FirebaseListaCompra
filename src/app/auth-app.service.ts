@@ -7,10 +7,11 @@ import {auth} from 'firebase';
   providedIn: 'root'
 })
 export class AuthAppService {
-  email = '';
-  pass = '';
   authUser = null;
-  constructor(public authApp: AngularFireAuth) { }
+  twitter = false;
+  google = false;
+  constructor(public authApp: AngularFireAuth) {
+  }
 
   user = this.authApp.authState.pipe( map(authState => {
     console.log('authState', authState);
@@ -23,12 +24,10 @@ export class AuthAppService {
   }) );
   tlogin() {
     console.log('Twitter login!');
-    console.log('google login!');
+    this.twitter = true;
     this.authApp.auth.signInWithPopup( new auth.TwitterAuthProvider() )
       .then( user => {
         console.log('user logueado: ', user);
-        this.email = '';
-        this.pass = '';
         this.authUser = user.user;
       })
       .catch( error => {
@@ -37,11 +36,10 @@ export class AuthAppService {
   }
   glogin() {
     console.log('google login!');
+    this.google = true;
     this.authApp.auth.signInWithPopup( new auth.GoogleAuthProvider() )
       .then( user => {
         console.log('user logueado: ', user);
-        this.email = '';
-        this.pass = '';
         this.authUser = user.user;
       })
       .catch( error => {
@@ -50,6 +48,8 @@ export class AuthAppService {
   }
   logout() {
     console.log('logout!');
+    this.google = false;
+    this.twitter = false;
     this.authApp.auth.signOut();
   }
 }

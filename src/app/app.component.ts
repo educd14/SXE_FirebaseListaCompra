@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthAppService } from './auth-app.service';
+import {FireDBService} from './fire-db.service';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +9,6 @@ import { AuthAppService } from './auth-app.service';
 })
 export class AppComponent {
   title = 'listadecompra';
-  constructor( public authApp: AuthAppService) {}
+  constructor( public authApp: AuthAppService,
+               public dbApp: FireDBService) { }
 }
