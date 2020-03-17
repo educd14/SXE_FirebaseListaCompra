@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {map} from 'rxjs/operators';
 import {auth} from 'firebase';
+import {FireDBService} from './fire-db.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,8 @@ export class AuthAppService {
   authUser = null;
   twitter = false;
   google = false;
-  constructor(public authApp: AngularFireAuth) {
+  constructor(public authApp: AngularFireAuth,
+              public dbApp: FireDBService) {
   }
 
   user = this.authApp.authState.pipe( map(authState => {
@@ -45,6 +47,7 @@ export class AuthAppService {
       .catch( error => {
         console.log('error en google login: ', error);
       });
+
   }
   logout() {
     console.log('logout!');

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {AngularFireDatabase} from '@angular/fire/database';
+import {AuthAppService} from '../auth-app.service';
+import {FireDBService} from '../fire-db.service';
 
 @Component({
   selector: 'app-listacompra',
@@ -7,37 +10,46 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListacompraComponent implements OnInit {
 
-  productos: any[];
+  productos: any[6];
 
-  constructor() {
+  constructor(public authApp: AuthAppService,
+              public dbApp: FireDBService) {
+    dbApp.altaproducto('Carne', 'Carne');
+    dbApp.altaproducto('Huevos', 'Huevos');
+    dbApp.altaproducto('Leche', 'Leche');
+    dbApp.altaproducto('Agua', 'Agua');
+    dbApp.altaproducto('Queso', 'Queso');
+    dbApp.altaproducto('Lechuga', 'Lechuga');
+
     const producto1 = {
-      nombre: 'Pimientos',
+      nombre: 'Carne',
       comprado: false
     };
     const producto2 = {
-      nombre: 'Yogures',
+      nombre: 'Huevos',
       comprado: false
     };
 
     const producto3 = {
-      nombre: 'Agua',
+      nombre: 'Leche',
       comprado: false
     };
 
     const producto4 = {
-      nombre: 'Queso',
+      nombre: 'Agua',
       comprado: false
     };
 
     const producto5 = {
-      nombre: 'Lechuga',
+      nombre: 'Queso',
       comprado: false
     };
 
     const producto6 = {
-      nombre: 'Mermelada',
+      nombre: 'Lechuga',
       comprado: false
     };
+
     this.productos = [];
     this.productos.push(producto1);
     this.productos.push(producto2);
@@ -46,12 +58,13 @@ export class ListacompraComponent implements OnInit {
     this.productos.push(producto5);
     this.productos.push(producto6);
   }
-
-  onClickComprar(int) {
+  onClickComprar(int, uid: string, lista: []) {
     this.productos[int].comprado = false;
+    this.dbApp.agregarlista(uid, lista);
   }
-  onClickComprado(int) {
+  onClickComprado(int, uid: string, lista: []) {
     this.productos[int].comprado = true;
+    this.dbApp.agregarlista(uid, lista);
   }
   ngOnInit(): void {
   }

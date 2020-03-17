@@ -1,13 +1,19 @@
 <div class="loginDiv" *ngIf="( authApp.user | async) as obs; else login">{{obs.email}} - {{obs.uid}} - {{obs.displayName}}
+  <ng-container *ngIf="dbApp.acceso == false else compra"></ng-container>
   <br/><br/>
   <button class="btn btn-secondary" (click)="authApp.logout()"><i class="fas fa-sign-out-alt"></i> OUT</button>
   <br/><br/>
   <br/><br/>
-  <ng-container *ngIf="authApp.twitter == true"> <button class="btn btn-success" (click)="dbApp.altausuario(obs.displayName, obs.uid)"><i class="fas fa-check"></i> ALTA</button></ng-container>
-  <ng-container *ngIf="authApp.google == true"> <button class="btn btn-success" (click)="dbApp.altausuario(obs.email, obs.uid)"><i class="fas fa-check"></i> ALTA</button></ng-container>
+  <ng-container *ngIf="authApp.twitter == true"> <button class="btn btn-success" (click)="dbApp.altausuario(obs.displayName, obs.uid)"><i class="fas fa-check"></i> Acceder</button></ng-container>
+  <ng-container *ngIf="authApp.google == true"> <button class="btn btn-success" (click)="dbApp.altausuario(obs.email, obs.uid)"><i class="fas fa-check"></i> Acceder</button></ng-container>
+ <!-- <ng-container *ngIf="authApp.twitter == true"> <button class="btn btn-success" (click)="dbApp.altausuario(obs.displayName, obs.uid)"><i class="fas fa-check"></i> ALTA</button></ng-container>
+  <ng-container *ngIf="authApp.google == true"> <button class="btn btn-success" (click)="dbApp.altausuario(obs.email, obs.uid)"><i class="fas fa-check"></i> ALTA</button></ng-container>-->
   <button class="btn btn-danger" (click)="dbApp.bajausuario(obs.uid)"><i class="far fa-trash-alt"></i> BAJA</button>
   <br/><br/>
 </div>
+<ng-template #compra>
+  <app-listacompra></app-listacompra>
+</ng-template>
 <ng-template #login>
   <div class="loginDiv">
     <br/><br/>

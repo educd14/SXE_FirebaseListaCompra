@@ -1,3 +1,4 @@
+<ng-container *ngIf="( authApp.user | async) as obs">
 <h1>LISTA DE LA COMPRA</h1>
 <table>
   <table style="width: 100%; border: 1px solid black;">
@@ -8,7 +9,7 @@
     <ng-container *ngFor="let producto of productos index as i;">
       <tr *ngIf="producto.comprado == false">
         <td>
-          <button (click)="onClickComprado(i)">Comprar</button>
+          <button (click)="onClickComprado(i,obs.uid,productos)">Comprar</button>
         </td>
 
         <td>{{producto.nombre}}</td>
@@ -19,5 +20,6 @@
 
 <h2>Productos Comprados:</h2>
 <ng-container *ngFor="let producto of productos index as i;">
-  <li *ngIf="producto.comprado">{{producto.nombre}} <button (click)="onClickComprar(i)">Volver a comprar</button></li>
+  <li *ngIf="producto.comprado">{{producto.nombre}} <button (click)="onClickComprar(i,obs.uid,productos)">Volver a comprar</button></li>
+</ng-container>
 </ng-container>
