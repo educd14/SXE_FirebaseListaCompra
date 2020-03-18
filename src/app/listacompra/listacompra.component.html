@@ -1,25 +1,60 @@
 <ng-container *ngIf="( authApp.user | async) as obs">
-<h1>LISTA DE LA COMPRA</h1>
-<table>
-  <table style="width: 100%; border: 1px solid black;">
-    <tr>
-      <th>Estado del Producto</th>
-      <th>Nombre</th>
-    </tr>
-    <ng-container *ngFor="let producto of productos index as i;">
-      <tr *ngIf="producto.comprado == false">
-        <td>
-          <button (click)="onClickComprado(i,obs.uid,productos)">Comprar</button>
-        </td>
-
-        <td>{{producto.nombre}}</td>
+  <ng-container *ngIf="dbApp.nuevalista == true else login">
+  <h1>LISTA DE LA COMPRA</h1>
+  <table>
+    <table style="width: 100%; border: 1px solid black;">
+      <tr>
+        <th>Estado del Producto</th>
+        <th>Nombre</th>
       </tr>
-    </ng-container>
-  </table>
-</table>
+      <ng-container *ngFor="let producto of productos index as i;">
+        <tr *ngIf="producto.comprado == false">
+          <td>
+            <button (click)="onClickComprado(i,obs.uid)">Comprar</button>
+          </td>
 
-<h2>Productos Comprados:</h2>
-<ng-container *ngFor="let producto of productos index as i;">
-  <li *ngIf="producto.comprado">{{producto.nombre}} <button (click)="onClickComprar(i,obs.uid,productos)">Volver a comprar</button></li>
+          <td>{{producto.nombre}}</td>
+        </tr>
+      </ng-container>
+    </table>
+  </table>
+
+  <h2>Productos Comprados:</h2>
+  <ng-container *ngFor="let producto of productos index as i;">
+    <li *ngIf="producto.comprado">{{producto.nombre}} <button (click)="onClickComprar(i,obs.uid)">Volver a comprar</button></li>
+  </ng-container>
+  </ng-container>
+
+
+
+
+
+  <ng-template #login>
+  <h1>LISTA DE LA COMPRA</h1>
+  <table>
+    <table style="width: 100%; border: 1px solid black;">
+      <tr>
+        <th>Estado del Producto</th>
+        <th>Nombre</th>
+      </tr>
+      <ng-container *ngFor="let producto of productos index as i, let carro of dbApp.lista">
+        <tr *ngIf="carro.comprado == false">
+          <td>
+            <button (click)="onClickComprado(i,obs.uid)">Comprar</button>
+          </td>
+
+          <td>{{producto.nombre}}</td>
+        </tr>
+        </ng-container>
+    </table>
+  </table>
+
+  <h2>Productos Comprados:</h2>
+  <ng-container *ngFor="let producto of productos index as i, let carro of dbApp.lista">
+    <li *ngIf="carro.comprado">{{producto.nombre}} <button (click)="onClickComprar(i,obs.uid)">Volver a comprar</button></li>
+  </ng-container>
+  </ng-template>
+
 </ng-container>
-</ng-container>
+
+

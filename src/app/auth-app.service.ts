@@ -51,6 +51,7 @@ export class AuthAppService {
   }
   logout() {
     console.log('logout!');
+    this.dbApp.acceso = false;
     this.google = false;
     this.twitter = false;
     this.authApp.auth.signOut();

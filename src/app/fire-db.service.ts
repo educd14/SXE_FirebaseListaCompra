@@ -8,7 +8,8 @@ import {Observable} from 'rxjs';
 })
 export class FireDBService {
   acceso = false;
-  lele: object
+  lista: any[];
+  nuevalista = true;
 
   constructor(private db: AngularFireDatabase) {
   }
@@ -21,6 +22,7 @@ export class FireDBService {
   altausuario(usuarioNuevoCorreo: string, usuarioNuevoUID: string) {
     this.db.object('users/userUID/' + usuarioNuevoUID.toString()).update({identificacion: usuarioNuevoCorreo});
     this.acceso = true;
+    this.getProductos(usuarioNuevoUID);
     console.log('Insertado uid');
   }
 
@@ -35,12 +37,33 @@ export class FireDBService {
     console.log('Insertada lista');
   }
 
+  getDatosUsers() {
+    return this.db.list('users/userUID/').snapshotChanges();
+  }
+
+  getProductos(uid: string) {
+    this.nuevalista = true;
+    this.db.list('users/userUID/' + uid + '/Lista_productos/').snapshotChanges().subscribe( result => {
+      this.lista = [];
+      result.forEach( l => {
+        this.nuevalista = false;
+        const listap: any = l.payload.val();
+
+        this.lista.push(listap);
+        console.log(l);
+      });
+      console.log(this.lista);
+    });
+    return this.lista;
+  }
+
   /**
    * Borra la entrada segun el UID del usuario
    * @param uidBorrar uid del usuario logueado
    */
   bajausuario(uidBorrar: string) {
     // borra entrada
+    this.acceso = false;
     this.db.object('users/userUID/' + uidBorrar).remove();
   }
 }

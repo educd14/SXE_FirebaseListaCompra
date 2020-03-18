@@ -11,6 +11,7 @@ import {FireDBService} from '../fire-db.service';
 export class ListacompraComponent implements OnInit {
 
   productos: any[6];
+  listausers: any[];
 
   constructor(public authApp: AuthAppService,
               public dbApp: FireDBService) {
@@ -58,15 +59,29 @@ export class ListacompraComponent implements OnInit {
     this.productos.push(producto5);
     this.productos.push(producto6);
   }
-  onClickComprar(int, uid: string, lista: []) {
+  onClickComprar(int, uid: string) {
     this.productos[int].comprado = false;
-    this.dbApp.agregarlista(uid, lista);
+    this.dbApp.agregarlista(uid, this.productos);
   }
-  onClickComprado(int, uid: string, lista: []) {
+  onClickComprado(int, uid: string) {
     this.productos[int].comprado = true;
-    this.dbApp.agregarlista(uid, lista);
+    this.dbApp.agregarlista(uid, this.productos);
   }
-  ngOnInit(): void {
+  ngOnInit() {
+
+    this.dbApp.getDatosUsers().subscribe( result => {
+      this.listausers = [];
+      result.forEach(u => {
+        const user: any = u.payload.val();
+        user.key = u.key;
+        console.log(user.key);
+        this.listausers.push(user);
+        console.log(u);
+
+        console.log(this.listausers);
+      });
+    });
+
   }
 
 }
