@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import {AngularFireDatabase, SnapshotAction} from '@angular/fire/database';
-import {ListacompraComponent} from './listacompra/listacompra.component';
-import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FireDBService {
   acceso = false;
-  lista: any[];
+  lista: any[6];
   nuevalista = true;
 
   constructor(private db: AngularFireDatabase) {
@@ -26,8 +24,8 @@ export class FireDBService {
     console.log('Insertado uid');
   }
 
-  altaproducto(nombre: string, nombreProducto: string) {
-    this.db.object('productos/' + nombre).update({Producto: nombreProducto});
+  altaproducto(nombre: string, ProductoI: {}) {
+    this.db.object('productos/' + nombre).update({Producto: ProductoI});
     this.acceso = true;
     console.log('Insertado producto');
   }
@@ -39,6 +37,10 @@ export class FireDBService {
 
   getDatosUsers() {
     return this.db.list('users/userUID/').snapshotChanges();
+  }
+
+  getIngredientes() {
+    return this.db.list('productos').snapshotChanges();
   }
 
   getProductos(uid: string) {

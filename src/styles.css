@@ -5,3 +5,23 @@
   float: none;
   margin: auto;
 }
+
+body{
+  background-color: #85a993;
+}
+
+h1{
+  color: #fff;
+}
+.btn-danger{
+  font-size: 200%;
+}
+.btn-primary{
+  font-size: 200%;
+}
+.btn-secondary{
+  font-size: 200%;
+}
+.btn-success{
+  font-size: 200%;
+}

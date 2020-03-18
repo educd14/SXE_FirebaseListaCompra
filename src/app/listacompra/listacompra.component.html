@@ -1,7 +1,21 @@
 <ng-container *ngIf="( authApp.user | async) as obs">
   <ng-container *ngIf="dbApp.nuevalista == true else login">
   <h1>LISTA DE LA COMPRA</h1>
-  <table>
+    <h2>Mi lista</h2>
+    <div class="grid">
+      <div  *ngFor="let producto of productos index as i;">
+        <img  class="item" *ngIf="producto.encarro" src="{{producto.img}}" id="no-carro"  (click)="onClickNoCarro(i,obs.uid)">
+      </div>
+    </div>
+    <h2>Productos</h2>
+    <div class="grid">
+      <div  *ngFor="let producto of productos index as i;">
+        <img class="item" src="{{producto.img}}" id="carro" *ngIf="!producto.encarro" (click)="onClickEnCarro(i,obs.uid)">
+      </div>
+    </div>
+  </ng-container>
+
+ <!-- <table>
     <table style="width: 100%; border: 1px solid black;">
       <tr>
         <th>Estado del Producto</th>
@@ -23,14 +37,35 @@
   <ng-container *ngFor="let producto of productos index as i;">
     <li *ngIf="producto.comprado">{{producto.nombre}} <button (click)="onClickComprar(i,obs.uid)">Volver a comprar</button></li>
   </ng-container>
-  </ng-container>
+  </ng-container>-->
 
 
 
 
 
   <ng-template #login>
-  <h1>LISTA DE LA COMPRA</h1>
+
+    <h1>LISTA DE LA COMPRA</h1>
+    <h2>Mi lista</h2>
+    <div class="grid">
+      <div  *ngFor="let producto of productos index as i, let carro of dbApp.lista">
+        <img  class="item" *ngIf="carro.encarro" src="{{producto.img}}" id="no-carro2"  (click)="onClickNoCarro2(i,obs.uid)">
+      </div>
+    </div>
+    <h2>Productos</h2>
+    <div class="grid">
+      <div  *ngFor="let producto of productos index as i, let carro of dbApp.lista">
+        <img class="item" src="{{producto.img}}" id="carro2" *ngIf="!carro.encarro" (click)="onClickEnCarro2(i,obs.uid)">
+      </div>
+    </div>
+</ng-template>
+
+</ng-container>
+
+
+
+
+<!-- <h1>LISTA DE LA COMPRA</h1>
   <table>
     <table style="width: 100%; border: 1px solid black;">
       <tr>
@@ -52,9 +87,6 @@
   <h2>Productos Comprados:</h2>
   <ng-container *ngFor="let producto of productos index as i, let carro of dbApp.lista">
     <li *ngIf="carro.comprado">{{producto.nombre}} <button (click)="onClickComprar(i,obs.uid)">Volver a comprar</button></li>
-  </ng-container>
-  </ng-template>
-
-</ng-container>
+  </ng-container>-->
 
 

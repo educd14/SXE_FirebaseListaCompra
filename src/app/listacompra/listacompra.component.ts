@@ -12,60 +12,76 @@ export class ListacompraComponent implements OnInit {
 
   productos: any[6];
   listausers: any[];
+  ingredientes: any[];
 
   constructor(public authApp: AuthAppService,
               public dbApp: FireDBService) {
-    dbApp.altaproducto('Carne', 'Carne');
-    dbApp.altaproducto('Huevos', 'Huevos');
-    dbApp.altaproducto('Leche', 'Leche');
-    dbApp.altaproducto('Agua', 'Agua');
-    dbApp.altaproducto('Queso', 'Queso');
-    dbApp.altaproducto('Lechuga', 'Lechuga');
 
-    const producto1 = {
+    const Carne = {
       nombre: 'Carne',
-      comprado: false
+      img: 'assets/image/meat.png',
+      encarro: false
     };
-    const producto2 = {
+    const Huevos = {
       nombre: 'Huevos',
-      comprado: false
+      img: 'assets/image/egg.png',
+      encarro: false
     };
 
-    const producto3 = {
-      nombre: 'Leche',
-      comprado: false
-    };
-
-    const producto4 = {
-      nombre: 'Agua',
-      comprado: false
-    };
-
-    const producto5 = {
+    const Queso = {
       nombre: 'Queso',
-      comprado: false
+      img: 'assets/image/cheese.png',
+      encarro: false
     };
 
-    const producto6 = {
-      nombre: 'Lechuga',
-      comprado: false
+    const Cerveza = {
+      nombre: 'Cerveza',
+      img: 'assets/image/beer.png',
+      encarro: false
+    };
+
+    const Pescado = {
+      nombre: 'Pescado',
+      img: 'assets/image/fish.png',
+      encarro: false
+    };
+
+    const Leche = {
+      nombre: 'Leche',
+      img: 'assets/image/milk.png',
+      encarro: false
     };
 
     this.productos = [];
-    this.productos.push(producto1);
-    this.productos.push(producto2);
-    this.productos.push(producto3);
-    this.productos.push(producto4);
-    this.productos.push(producto5);
-    this.productos.push(producto6);
+    this.productos.push(Carne);
+    this.productos.push(Huevos);
+    this.productos.push(Queso);
+    this.productos.push(Cerveza);
+    this.productos.push(Pescado);
+    this.productos.push(Leche);
+
+    dbApp.altaproducto('Carne', Carne);
+    dbApp.altaproducto('Huevos', Huevos);
+    dbApp.altaproducto('Leche', Leche);
+    dbApp.altaproducto('Pescado', Pescado);
+    dbApp.altaproducto('Queso', Queso);
+    dbApp.altaproducto('Lechuga', Cerveza);
   }
-  onClickComprar(int, uid: string) {
-    this.productos[int].comprado = false;
+  onClickNoCarro(int, uid: string) {
+    this.productos[int].encarro = false;
     this.dbApp.agregarlista(uid, this.productos);
   }
-  onClickComprado(int, uid: string) {
-    this.productos[int].comprado = true;
+  onClickEnCarro(int, uid: string) {
+    this.productos[int].encarro = true;
     this.dbApp.agregarlista(uid, this.productos);
+  }
+  onClickNoCarro2(int, uid: string) {
+    this.dbApp.lista[int].encarro = false;
+    this.dbApp.agregarlista(uid, this.dbApp.lista);
+  }
+  onClickEnCarro2(int, uid: string) {
+    this.dbApp.lista[int].encarro = true;
+    this.dbApp.agregarlista(uid, this.dbApp.lista);
   }
   ngOnInit() {
 
@@ -80,6 +96,17 @@ export class ListacompraComponent implements OnInit {
 
         console.log(this.listausers);
       });
+    });
+
+    this.dbApp.getIngredientes().subscribe( result => {
+      this.ingredientes = [];
+      result.forEach( i => {
+        const ingrediente: any = i.payload.val();
+
+        this.productos.push(ingrediente);
+        console.log(i);
+      });
+      console.log(this.ingredientes);
     });
 
   }
